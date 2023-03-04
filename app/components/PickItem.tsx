@@ -38,8 +38,8 @@ const $pickInnerContainer: ViewStyle = {
 }
 
 const $image: ImageStyle = {
-  width: 50,
-  height: 50,
+  width: 45,
+  height: 45,
   marginHorizontal: 15
 }
 
