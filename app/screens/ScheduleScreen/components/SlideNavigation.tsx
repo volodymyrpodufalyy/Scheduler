@@ -4,17 +4,10 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { colors } from '../../../theme'
 import { Day } from './Day'
 
+
 const Tab = createMaterialTopTabNavigator()
 
-export const SlideNavigation = () => {
-
-  const schedule = [
-    { day: 'ПН', lessons:[{name:'Комп’ютерні мережі'}] },
-    { day: 'ВТ', lessons:[{name:'second name'}] },
-    { day: 'СР' },
-    { day: 'ЧТ' },
-    { day: 'ПТ' }
-  ]
+export const SlideNavigation = ({data}:{data:any}) => {
 
   const screenOptions = {
     tabBarLabelStyle: $tabBarLabel,
@@ -22,9 +15,11 @@ export const SlideNavigation = () => {
     tabBarIndicatorStyle: {backgroundColor: colors.textDim}
   }
 
+
   return (
     <Tab.Navigator screenOptions={screenOptions}>
-      {schedule.map(item => <Tab.Screen
+      {/*@ts-ignore*/}
+      {data.map(item => <Tab.Screen
           name={item.day}
           key={item.day}
           component={Day}

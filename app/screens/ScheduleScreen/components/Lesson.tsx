@@ -1,26 +1,29 @@
 import React from 'react'
 import { Dimensions, Text, TextStyle, View, ViewStyle } from 'react-native'
 import { colors } from '../../../theme'
+import { LessonType } from '../../../common/types/lesson.type'
+import { translateToUa } from '../../../utils/translator'
+import { getTime } from '../../../utils/timeFormater'
 
 const screenWidth = Dimensions.get('window').width
-export const Lesson = ({ lesson }: { lesson: any }) => {
-
+export const Lesson = ({ lesson }: { lesson: LessonType }) => {
+  const [startTime, endTime] = getTime(lesson.timeStart)
   return <View style={$lesson}>
     <View style={$leftContainer}>
       <View>
-        <Text style={$lessonNumber}>1</Text>
+        <Text style={$lessonNumber}>{lesson.numberLesson}</Text>
       </View>
       <View>
-        <Text style={$time}>08-30</Text>
-        <Text style={$time}>10-20</Text>
+        <Text style={$time}>{startTime}</Text>
+        <Text style={$time}>{endTime}</Text>
       </View>
     </View>
     <View style={$rightContainer}>
       <Text style={$lessonName}>{lesson.name}</Text>
-      <Text style={$addInfo}>Торубка Т.В.</Text>
-      <Text style={$addInfo}>Практична</Text>
+      <Text style={$addInfo}>{lesson.lector}</Text>
+      <Text style={$addInfo}>{translateToUa(lesson.lessonType)}</Text>
       <View style={$location}>
-        <Text>504 км. 5 корпус</Text>
+        <Text>{lesson.location}</Text>
       </View>
     </View>
 

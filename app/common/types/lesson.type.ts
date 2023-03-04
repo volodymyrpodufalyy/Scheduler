@@ -5,8 +5,10 @@ export type LessonType = {
     name: string,
     lector: string,
     location: string,
-    date: Date,
-    lessonType: typeof LessonTypeEnum,
-    groupTurn: typeof GroupTurnEnum,
-    weekTurn: typeof WeekTurnEnum
+    timeStart: string,
+    numberLesson: number,
+    dayOfWeek: number,
+    lessonType: keyof typeof LessonTypeEnum,
+    groupTurn: keyof typeof GroupTurnEnum,
+    weekTurn: keyof typeof WeekTurnEnum
 }
