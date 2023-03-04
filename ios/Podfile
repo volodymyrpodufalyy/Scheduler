@@ -44,11 +44,6 @@ target 'Scheduler' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  # React Native Maps dependencies
-  pod 'Google-Maps-iOS-Utils', :git => 'https://github.com/Simon-TechForm/google-maps-ios-utils.git', :branch => 'feat/support-apple-silicon'
-  rn_maps_path = '../node_modules/react-native-maps'
-  pod 'react-native-google-maps', :path => rn_maps_path
-
   target 'SchedulerTests' do
     inherit! :complete
     # Pods for testing

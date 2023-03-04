@@ -8,7 +8,6 @@ export const MapScreen = () => {
       <Text>MapScreen</Text>
       <View style={$mapContainer}>
         <MapView
-          provider="google"
           style={$map}
           initialRegion={{
             latitude: 37.78825,
