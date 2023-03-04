@@ -27,7 +27,7 @@ export const AppNavigator = () => {
 
   return (
     <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AppStack />
+      <AppStack/>
     </NavigationContainer>
   )
 }
