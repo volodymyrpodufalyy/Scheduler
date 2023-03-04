@@ -16,6 +16,7 @@ const palette = {
 
   secondary100: '#219897',
   secondary200: '#85cfcb',
+  secondary300: 'rgba(33,152,151,0.6)',
 
   accent100: '#FFEED4',
   accent200: '#FFE1B2',
