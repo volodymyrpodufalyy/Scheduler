@@ -3,7 +3,6 @@ import { Dimensions, ImageStyle, SafeAreaView, TextStyle, ViewStyle } from 'reac
 import { colors } from '../theme'
 import { ModalPicker, UorG } from '../components/ModalPicker'
 import { PickItem } from '../components/PickItem'
-import { Header } from '../components/Header'
 
 const groups = [
   { name: 'IOT-32', image: '' },

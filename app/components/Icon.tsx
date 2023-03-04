@@ -81,7 +81,7 @@ export function Icon(props: IconProps) {
 export const iconRegistry = {
   schedule: require('../../assets/icons/Schedule.png'),
   map: require('../../assets/icons/Map.png'),
-  event: require('../../assets/icons/Event.png'),
+  event: require('../../assets/icons/event.png'),
   menu: require('../../assets/icons/Menu.png'),
 }
 

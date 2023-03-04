@@ -1,5 +1,5 @@
 import React from 'react'
-import {ViewStyle} from 'react-native'
+import { Platform, View, ViewStyle } from 'react-native'
 import {EventsScreen, MapScreen, MenuScreen, ScheduleScreen} from '../screens'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {Icon, IconTypes} from '../components'
