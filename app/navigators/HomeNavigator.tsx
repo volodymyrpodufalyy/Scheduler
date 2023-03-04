@@ -4,13 +4,17 @@ import {EventsScreen, MapScreen, MenuScreen, ScheduleScreen} from '../screens'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {Icon, IconTypes} from '../components'
 import {colors} from '../theme'
+import { Header } from '../components/Header'
 
 const Tab = createBottomTabNavigator()
 
 export function HomeNavigator() {
   const tabNavigationOption = ({route}: any) => ({
     tabBarShowLabel: false,
-    headerShown: false,
+
+    header: ({route}:any) => (
+      <Header title={route.name} />
+    ),
     tabBarActiveTintColor: '',
     tabBarStyle: $tabBar,
 
