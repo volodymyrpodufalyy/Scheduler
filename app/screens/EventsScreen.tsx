@@ -1,10 +1,10 @@
 import React from "react"
-import { SafeAreaView, Text, ViewStyle } from "react-native"
+import { Button, SafeAreaView, Text, ViewStyle } from 'react-native'
 
 export const EventsScreen = () => {
   return (
     <SafeAreaView style={$container}>
-      <Text>EventsScreen</Text>
+      
     </SafeAreaView>
   )
 }
