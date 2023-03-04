@@ -1,0 +1,5 @@
+export {type EventType} from './event.type'
+export {type BuildingType} from './building.type'
+export {type LessonType} from './lesson.type'
+export {type GroupType} from './group.type'
+export {type UniversityType} from './university.type'
