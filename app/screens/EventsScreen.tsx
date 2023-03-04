@@ -1,10 +1,15 @@
 import React from "react"
-import { SafeAreaView, Text, ViewStyle } from "react-native"
+import { Button, SafeAreaView, Text, ViewStyle } from 'react-native'
 
 export const EventsScreen = () => {
+
+  const onPressHandler = () => {
+    console.log('on press')
+  }
+
   return (
     <SafeAreaView style={$container}>
-      <Text>EventsScreen</Text>
+      <Button title={'title'} onPress={onPressHandler}/>
     </SafeAreaView>
   )
 }
