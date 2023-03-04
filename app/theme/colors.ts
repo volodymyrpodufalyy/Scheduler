@@ -10,19 +10,12 @@ const palette = {
   neutral800: '#191015',
   neutral900: '#000000',
 
-  primary100: '#F4E0D9',
-  primary200: '#E8C1B4',
-  primary300: '#DDA28E',
-  primary400: '#D28468',
-  primary500: '#C76542',
-  primary600: '#A54F31',
+  primary100: '#2c2828',
+  primary200: '#3b2c85',
 
-  secondary100: '#DCDDE9',
-  secondary200: '#BCC0D6',
-  secondary300: '#9196B9',
-  secondary400: '#626894',
-  secondary500: '#41476E',
-  secondary600: '#151b23',
+
+  secondary100: '#219897',
+  secondary200: '#85cfcb',
 
   accent100: '#FFEED4',
   accent200: '#FFE1B2',
@@ -53,23 +46,23 @@ export const colors = {
   /**
    * The default text color in many components.
    */
-  text: palette.neutral800,
+  text: palette.secondary100,
   /**
    * Secondary text information.
    */
-  textDim: palette.neutral600,
+  textDim: palette.secondary200,
   /**
    * The default color of the screen background.
    */
-  background: palette.neutral200,
+  background: palette.primary100,
   /**
    * The default border color.
    */
-  border: palette.neutral400,
+  border: palette.secondary200,
   /**
    * The main tinting color.
    */
-  tint: palette.primary500,
+  tint: palette.primary200,
   /**
    * A subtle color used for lines.
    */
