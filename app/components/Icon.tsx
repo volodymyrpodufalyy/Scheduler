@@ -48,7 +48,7 @@ export function Icon(props: IconProps) {
   const {
     icon,
     color,
-    size,
+    size = 20,
     style: $imageStyleOverride,
     containerStyle: $containerStyleOverride,
     ...WrapperProps

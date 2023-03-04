@@ -1,42 +1,46 @@
-import React from 'react'
-import {ViewStyle} from 'react-native'
-import {EventsScreen, MapScreen, MenuScreen, ScheduleScreen} from '../screens'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {Icon, IconTypes} from '../components'
-import {colors} from '../theme'
+import React from "react"
+import { Platform, View, ViewStyle } from "react-native"
+import { EventsScreen, MapScreen, MenuScreen, ScheduleScreen } from "../screens"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { Icon, IconTypes } from "../components"
+import { colors } from "../theme"
 
 const Tab = createBottomTabNavigator()
 
 export function HomeNavigator() {
-  const tabNavigationOption = ({route}: any) => ({
+  const tabNavigationOption = ({ route }: any) => ({
     tabBarShowLabel: false,
     headerShown: false,
-    tabBarActiveTintColor: '',
+    tabBarActiveTintColor: "",
     tabBarStyle: $tabBar,
 
     tabBarVisible: true,
-    tabBarIcon: ({focused}: any) => {
-      let iconName: IconTypes = 'map'
+    tabBarIcon: ({ focused }: any) => {
+      let iconName: IconTypes = "map"
 
-      if (route.name === 'Schedule') {
-        iconName = 'schedule'
+      if (route.name === "Schedule") {
+        iconName = "schedule"
       }
-      if (route.name === 'Map') {
-        iconName = 'map'
+      if (route.name === "Map") {
+        iconName = "map"
       }
-      if (route.name === 'Events') {
-        iconName = 'event'
+      if (route.name === "Events") {
+        iconName = "event"
       }
-      if (route.name === 'Menu') {
-        iconName = 'menu'
+      if (route.name === "Menu") {
+        iconName = "menu"
       }
 
-      return <Icon icon={iconName} color={focused ? colors.textDim : colors.text} size={32} />
-    },
+      return (
+        <View style={$icon}>
+          <Icon icon={iconName} color={focused ? colors.textDim : colors.text} size={24} />
+        </View>
+      )
+    }
   })
 
   return (
-    <Tab.Navigator initialRouteName={'Menu'} screenOptions={tabNavigationOption}>
+    <Tab.Navigator initialRouteName={"Menu"} screenOptions={tabNavigationOption}>
       <Tab.Screen name="Schedule" component={ScheduleScreen} />
       <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Events" component={EventsScreen} />
@@ -53,5 +57,9 @@ const $tabBar: ViewStyle = {
   elevation: 0,
   shadowOpacity: 0,
   borderBottomWidth: 0,
-  shadowColor: colors.border,
+  shadowColor: colors.border
+}
+
+const $icon: ViewStyle = {
+  top: Platform.OS === "ios" ? 8 : 0
 }
