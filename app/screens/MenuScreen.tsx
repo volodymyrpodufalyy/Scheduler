@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Dimensions, ImageStyle, SafeAreaView, TextStyle, ViewStyle } from 'react-native'
-import { colors } from '../theme'
-import { ModalPicker, UorG } from '../components/ModalPicker'
-import { PickItem } from '../components/PickItem'
-import { useAppDispatch, useAppSelector } from '../store/store'
-import { updateUser } from '../store/app/action'
-import { getGroupsByUni, getUniversity } from '../store/lessons/action'
+import React, { useEffect, useState } from "react"
+import { SafeAreaView, ViewStyle } from "react-native"
+import { colors } from "../theme"
+import { ModalPicker, UorG } from "../components/ModalPicker"
+import { PickItem } from "../components/PickItem"
+import { useAppDispatch, useAppSelector } from "../store/store"
+import { updateUser } from "../store/app/action"
+import { getGroupsByUni, getUniversity } from "../store/lessons/action"
 
 
 export const MenuScreen = () => {
@@ -45,8 +45,6 @@ export const MenuScreen = () => {
     setSelectedUniversity(user?.selectedUniversity)
   }, [user])
 
-
-
   useEffect(() => {
     if (selectedUniversity) {
       dispatch(updateUser({
@@ -55,7 +53,7 @@ export const MenuScreen = () => {
       }))
       setSelectedGroup(null)
     }
-  }, [ selectedUniversity])
+  }, [selectedUniversity])
 
   useEffect(() => {
     if (selectedGroup && selectedUniversity) {
@@ -67,25 +65,7 @@ export const MenuScreen = () => {
   }, [selectedGroup])
 
   // useEffect(() => {
-  //   async function registerDevice() {
-  //     const token = await messaging().getToken()
-  //     console.log(token, "token")
-  //   }
-  //
-  //   async function requestUserPermission() {
-  //     Platform.OS === "android" && await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
-  //     const authStatus = await messaging().requestPermission()
-  //     const enabled =
-  //       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-  //       authStatus === messaging.AuthorizationStatus.PROVISIONAL
-  //
-  //     if (enabled) {
-  //       await registerDevice()
-  //     }
-  //   }
-  //
-  //
-  //   requestUserPermission()
+  //   requestUserPermissions(selectedGroup, selectedUniversity)
   // }, [])
 
 

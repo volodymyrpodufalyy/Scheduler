@@ -1,12 +1,11 @@
-import { createReducer } from '@reduxjs/toolkit'
-import { DataStatus } from '../../common/enums/enums'
+import { createReducer } from "@reduxjs/toolkit"
+import { DataStatus } from "../../common/enums/enums"
 
-import { getUser, updateUser } from './action'
+import { getUser, updateUser } from "./action"
 
-type User = {
+export type User = {
   selectedUniversity: any,
   selectedGroup: any,
-  token: string,
 }
 
 type State = {
@@ -24,9 +23,23 @@ const initialState: State = {
 const reducer = createReducer(initialState, builder => {
   builder.addCase(getUser.fulfilled, (state, action) => {
     state.user = action.payload
+    state.dataStatus = DataStatus.FULFILLED
+  })
+  builder.addCase(getUser.pending, (state, action) => {
+    state.dataStatus = DataStatus.PENDING
+  })
+  builder.addCase(updateUser.pending, (state, action) => {
+    state.dataStatus = DataStatus.PENDING
+  })
+  builder.addCase(getUser.rejected, (state, action) => {
+    state.dataStatus = DataStatus.REJECTED
+  })
+  builder.addCase(updateUser.rejected, (state, action) => {
+    state.dataStatus = DataStatus.REJECTED
   })
   builder.addCase(updateUser.fulfilled, (state, action) => {
     state.user = action.payload
+    state.dataStatus = DataStatus.FULFILLED
   })
 })
 
