@@ -19,7 +19,7 @@ export const AddMarkerButton = ({ onAddMarker }: { onAddMarker: (location: { lat
   const onConfirm = async () => {
     setEditing(false)
     const markers = await storage.load("markers")
-    if (JSON.parse(markers)?.length > 0) {
+    if (markers !== null) {
       await storage.save("markers", JSON.stringify([...markers, newMarker]))
     } else {
       await storage.save("markers", JSON.stringify([newMarker]))
