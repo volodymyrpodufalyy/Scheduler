@@ -16,24 +16,31 @@ export const WelcomeScreen = () => {
   const [modalVisibleGroups, setModalVisibleGroups] = useState(false)
   const [modalVisibleUniversities, setModalVisibleUniversities] = useState(false)
 
+  const [selection, setSelection] = useState({
+    selectedUniversity: null,
+    selectedGroup: null
+  })
 
   // useEffect(() => {
   //   requestUserPermissions(selectedGroup, selectedUniversity)
   // }, [])
 
-  const confirmSelection = (updatedUser: any) => {
-    dispatch(updateUser({
-      ...user,
-      ...updatedUser
-    }))
-  }
-
   const selectUniversity = (selectedUniversity: any) => {
-    confirmSelection({ selectedUniversity })
+    setSelection({
+      ...selection,
+      selectedUniversity: selectedUniversity
+    })
   }
 
-  const selectGroup = (selectedGroup: any) => {
-    confirmSelection({ selectedGroup })
+  const selectGroup = async (selectedGroup: any) => {
+    await dispatch(updateUser({
+      selectedUniversity: selection.selectedUniversity,
+      selectedGroup: selectedGroup
+    }))
+    setSelection({
+      ...selection,
+      selectedGroup: selectedGroup
+    })
   }
 
 
@@ -43,8 +50,8 @@ export const WelcomeScreen = () => {
   }
 
   const openGroups = () => {
-    if (user?.selectedUniversity) {
-      dispatch(getGroupsByUni(user.selectedUniversity))
+    if (selection?.selectedUniversity) {
+      dispatch(getGroupsByUni(selection.selectedUniversity))
       setModalVisibleGroups(true)
     }
   }
@@ -65,8 +72,8 @@ export const WelcomeScreen = () => {
                    setSelected={selectGroup}
       />
       {
-        user?.selectedUniversity ?
-          <PickItem item={user.selectedUniversity}
+        selection?.selectedUniversity ?
+          <PickItem item={selection.selectedUniversity}
                     type={UorG.university}
                     onPress={openUniversities} />
           :
@@ -75,8 +82,8 @@ export const WelcomeScreen = () => {
                     onPress={openUniversities} />
       }
       {
-        user?.selectedGroup ?
-          <PickItem item={user.selectedGroup}
+        selection?.selectedGroup ?
+          <PickItem item={selection.selectedGroup}
                     type={UorG.group}
                     onPress={openGroups} />
           :

@@ -1,47 +1,36 @@
-import { DarkTheme, DefaultTheme, NavigationContainer, useNavigation } from "@react-navigation/native"
+import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { ActivityIndicator, useColorScheme, View, ViewStyle } from "react-native"
 import { HomeNavigator } from "./HomeNavigator"
 import { useAppDispatch, useAppSelector } from "../store/store"
 import { getUser } from "../store/app/action"
 import { WelcomeScreen } from "../screens/WelcomeScreen"
-import { isNotEmpty } from "../utils"
-import { DataStatus } from "../common/enums/data-status.enum"
 import { colors } from "../theme"
 
 const Stack = createNativeStackNavigator()
 
+const LoadingScreen = () => (
+  <View style={$loader}>
+    <ActivityIndicator />
+  </View>
+)
+
 const AppStack = () => {
   const dispatch = useAppDispatch()
-  const navigation = useNavigation()
-
-  const { dataStatus, user } = useAppSelector(state => state.AppReducer)
-  const loading = dataStatus === DataStatus.PENDING
+  const { user } = useAppSelector(state => state.AppReducer)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    dispatch(getUser([]))
+    const fetchUser = async () => {
+      setLoading(true)
+      await dispatch(getUser([]))
+      setLoading(false)
+    }
+    fetchUser()
   }, [])
 
-  useEffect(() => {
-    if (user === null) {
-      navigation.navigate("WelcomeScreen")
-    } else if (isNotEmpty(user)) {
-      navigation.navigate("HomeNavigation")
-    }
-  }, [user])
-
-
-  console.log(loading, "loading")
-
-  if (loading) {
-    return (
-      <View style={$loader}>
-        <ActivityIndicator />
-      </View>
-    )
-  }
-
+  if (loading) return <LoadingScreen />
 
   return (
     <Stack.Navigator
@@ -51,13 +40,12 @@ const AppStack = () => {
         }
       }}
     >
-      {isNotEmpty(user) ? (
-        <>
-          <Stack.Group>
-            {console.log("render home")}
-            <Stack.Screen name="HomeNavigation" component={HomeNavigator} />
-          </Stack.Group>
-        </>) : (
+      {user !== null ? (
+        <Stack.Group>
+          {console.log("render home")}
+          <Stack.Screen name="HomeNavigation" component={HomeNavigator} />
+        </Stack.Group>
+      ) : (
         <Stack.Group>
           {console.log("render welcome")}
           <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
