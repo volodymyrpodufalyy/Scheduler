@@ -21,21 +21,12 @@ const updateUser = createAsyncThunk<any, {
   selectedGroup: any
 } | null, AsyncThunkConfig>(
   ActionType.UPDATE_USER,
-  async (payload, { extra, getState }) => {
+  async (payload, { extra }) => {
     const { storage } = extra
-    const oldUser = getState().AppReducer.user
-
-    if (oldUser === null) {
-      await storage.save(StorageKey.USER, {
-        selectedUniversity: null,
-        selectedGroup: null,
-      })
-      return
-    }
 
     const user = {
       selectedUniversity: payload?.selectedUniversity,
-      selectedGroup: payload?.selectedGroup,
+      selectedGroup: payload?.selectedGroup
     }
 
     await storage.save(StorageKey.USER, user)
