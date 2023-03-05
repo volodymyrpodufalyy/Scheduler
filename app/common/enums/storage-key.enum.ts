@@ -1,5 +1,6 @@
 enum StorageKey {
-  TOKEN = 'token',
+    TOKEN = 'token',
+    USER = 'user-state'
 }
 
 export {StorageKey}

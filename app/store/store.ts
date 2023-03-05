@@ -1,9 +1,10 @@
-import {configureStore} from '@reduxjs/toolkit'
+import {configureStore, StoreEnhancer} from '@reduxjs/toolkit'
 import {rootReducer} from './rootReducer'
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
+import { storage } from '../services/api'
 
-const enhancers = []
-const extraArgument = {}
+const enhancers: StoreEnhancer[] = []
+const extraArgument = {storage}
 
 const store = configureStore({
   reducer: rootReducer,
