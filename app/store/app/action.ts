@@ -8,15 +8,16 @@ const getUser = createAsyncThunk<any, any, AsyncThunkConfig>(
   async (payload, { extra }) => {
     const { storage } = extra
 
-    const user = await storage.load(StorageKey.USER)
+    let user = await storage.load(StorageKey.USER)
 
     if (!user) {
-      // generate token
-      await storage.save(StorageKey.USER, {
+      user = {
         selectedUniversity: null,
         selectedGroup: null,
         token: ''
-      })
+      }
+      // generate token
+      await storage.save(StorageKey.USER, user)
 
     }
     return user
