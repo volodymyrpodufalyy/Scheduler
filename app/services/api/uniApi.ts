@@ -51,6 +51,7 @@ export async function getUniEvents(uniId: string){
 }
 
 export async function getUniGroupSchedule(uniId: string, groupId: string){
+
     const snapshot = await firestore()
                             .collection('universities')
                             .doc(uniId)
