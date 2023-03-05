@@ -57,6 +57,28 @@ export const MenuScreen = () => {
     }
   }, [selectedGroup, selectedUniversity])
 
+  useEffect(() => {
+    async function registerDevice() {
+      const token = await messaging().getToken()
+      console.log(token, "token")
+    }
+
+    async function requestUserPermission() {
+      Platform.OS === "android" && await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
+      const authStatus = await messaging().requestPermission()
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL
+
+      if (enabled) {
+        await registerDevice()
+      }
+    }
+
+
+    requestUserPermission()
+  }, [])
+
 
   return (
     <SafeAreaView style={$container}>
@@ -79,7 +101,7 @@ export const MenuScreen = () => {
                     type={UorG.university}
                     onPress={openUniversities} />
           :
-          <PickItem item={{ name: 'Університет' }}
+          <PickItem item={{ name: "Університет" }}
                     type={UorG.university}
                     onPress={openUniversities} />
       }
@@ -89,7 +111,7 @@ export const MenuScreen = () => {
                     type={UorG.group}
                     onPress={openGroups} />
           :
-          <PickItem item={{ name: 'Група' }}
+          <PickItem item={{ name: "Група" }}
                     type={UorG.group}
                     onPress={openGroups} />
       }
@@ -101,7 +123,7 @@ export const MenuScreen = () => {
 
 const $container: ViewStyle = {
   flex: 1,
-  height: '100%',
-  width: '100%',
+  height: "100%",
+  width: "100%",
   backgroundColor: colors.background
 }

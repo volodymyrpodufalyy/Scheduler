@@ -1,14 +1,6 @@
-import * as React from 'react'
-import {ComponentType} from 'react'
-import {
-  Image,
-  ImageStyle,
-  StyleProp,
-  TouchableOpacity,
-  TouchableOpacityProps,
-  View,
-  ViewStyle,
-} from 'react-native'
+import * as React from "react"
+import { ComponentType } from "react"
+import { Image, ImageStyle, StyleProp, TouchableOpacity, TouchableOpacityProps, View, ViewStyle } from "react-native"
 
 export type IconTypes = keyof typeof iconRegistry
 
@@ -16,32 +8,32 @@ interface IconProps extends TouchableOpacityProps {
   /**
    * The name of the icon
    */
-  icon: IconTypes
+  icon: IconTypes;
 
   /**
    * An optional tint color for the icon
    */
-  color?: string
+  color?: string;
 
   /**
    * An optional size for the icon. If not provided, the icon will be sized to the icon's resolution.
    */
-  size?: number
+  size?: number;
 
   /**
    * Style overrides for the icon image
    */
-  style?: StyleProp<ImageStyle>
+  style?: StyleProp<ImageStyle>;
 
   /**
    * Style overrides for the icon container
    */
-  containerStyle?: StyleProp<ViewStyle>
+  containerStyle?: StyleProp<ViewStyle>;
 
   /**
    * An optional function to be called when the icon is pressed
    */
-  onPress?: TouchableOpacityProps['onPress']
+  onPress?: TouchableOpacityProps["onPress"];
 }
 
 export function Icon(props: IconProps) {
@@ -61,16 +53,16 @@ export function Icon(props: IconProps) {
 
   return (
     <Wrapper
-      accessibilityRole={isPressable ? 'imagebutton' : undefined}
+      accessibilityRole={isPressable ? "imagebutton" : undefined}
       {...WrapperProps}
       style={$containerStyleOverride}>
       {/*@ts-ignore*/}
       <Image
         style={[
           $imageStyle,
-          color && {tintColor: color},
-          size && {width: size, height: size},
-          $imageStyleOverride,
+          color && { tintColor: color },
+          size && { width: size, height: size },
+          $imageStyleOverride
         ]}
         source={iconRegistry[icon]}
       />
@@ -79,12 +71,15 @@ export function Icon(props: IconProps) {
 }
 
 export const iconRegistry = {
-  schedule: require('../../assets/icons/Schedule.png'),
-  map: require('../../assets/icons/Map.png'),
-  event: require('../../assets/icons/event.png'),
-  menu: require('../../assets/icons/Menu.png'),
+  schedule: require("../../assets/icons/Schedule.png"),
+  map: require("../../assets/icons/Map.png"),
+  event: require("../../assets/icons/Event.png"),
+  menu: require("../../assets/icons/Menu.png"),
+  plus: require("../../assets/icons/plus.png"),
+  close: require("../../assets/icons/close.png"),
+  check: require("../../assets/icons/check.png")
 }
 
 const $imageStyle: ImageStyle = {
-  resizeMode: 'contain',
+  resizeMode: "contain"
 }
