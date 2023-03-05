@@ -8,7 +8,7 @@ const getUser = createAsyncThunk<any, any, AsyncThunkConfig>(
   async (payload, { extra }) => {
     const { storage } = extra
 
-    const user = await storage.load(StorageKey.USER)
+    let user = await storage.load(StorageKey.USER)
 
     return user
   }

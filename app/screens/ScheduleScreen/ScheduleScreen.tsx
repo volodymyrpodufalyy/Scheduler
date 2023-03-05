@@ -14,17 +14,19 @@ export const ScheduleScreen = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getLessonsByGroup(user?.selectedGroup))
+    dispatch(getLessonsByGroup({
+      selectedGroup: user?.selectedGroup, selectedUniversity: user?.selectedUniversity
+    }))
   }, [user])
 
   const schedule = useAppSelector(state => state.LessonsReducer.lessons)
 
   const [lessons, setLessons] = useState(null)
 
-  useEffect(()=>{
+  useEffect(() => {
     // @ts-ignore
     setLessons(schedule)
-  },[schedule])
+  }, [schedule])
 
   return (
     <>
