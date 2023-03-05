@@ -7,6 +7,7 @@ import { colors } from '../theme'
 import { Header } from '../components/Header'
 import { useAppSelector } from '../store/store'
 
+
 const Tab = createBottomTabNavigator()
 
 export function HomeNavigator() {
@@ -24,7 +25,7 @@ export function HomeNavigator() {
     header: ({ route }: any) => (
       <Header title={route.name} />
     ),
-    tabBarActiveTintColor: '',
+    tabBarActiveTintColor: "",
     tabBarStyle: $tabBar,
 
     tabBarVisible: true,
