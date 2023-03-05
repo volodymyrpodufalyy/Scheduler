@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { DataStatus } from '../../common/enums/enums'
 
-import { getGroupsByUni, getLessonsByGroup, getUniversity } from './action'
+import { getGroupsByUni, getLectors, getLessonsByGroup, getUniversity } from './action'
 
 
 type State = {
@@ -9,7 +9,9 @@ type State = {
   error: any
   universities: Array<any> | null
   groups: Array<any> | null
-  lessons: Array<any> | null
+  lessons: Array<any> | null,
+  lectors: Array<any> | null,
+
 }
 
 const initialState: State = {
@@ -17,7 +19,8 @@ const initialState: State = {
   error: null,
   universities: null,
   groups: null,
-  lessons: null
+  lessons: null,
+  lectors: null
 }
 
 const reducer = createReducer(initialState, builder => {
@@ -29,6 +32,9 @@ const reducer = createReducer(initialState, builder => {
   })
   builder.addCase(getLessonsByGroup.fulfilled, (state, action) => {
     state.lessons = action.payload
+  })
+  builder.addCase(getLectors.fulfilled, (state, action) => {
+    state.lectors = action.payload
   })
 })
 

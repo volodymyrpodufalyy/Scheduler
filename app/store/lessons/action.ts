@@ -28,8 +28,8 @@ const getLessonsByGroup = createAsyncThunk<any, any, AsyncThunkConfig>(
   async (payload, { extra }) => {
 
 
-    if(payload){
-      const data = await getUniGroupSchedule( payload.selectedUniversity.id, payload.selectedGroup.id)
+    if (payload) {
+      const data = await getUniGroupSchedule(payload.selectedUniversity.id, payload.selectedGroup.id)
 
       return filterLessons(data)
     }
@@ -37,5 +37,31 @@ const getLessonsByGroup = createAsyncThunk<any, any, AsyncThunkConfig>(
   }
 )
 
+const getLectors = createAsyncThunk<any, any, AsyncThunkConfig>(
+  ActionType.GET_LECTORS,
+  async (payload, { extra, getState }) => {
 
-export { getUniversity, getGroupsByUni, getLessonsByGroup }
+    const user = getState().AppReducer.user
+    let groups = getState().LessonsReducer.groups
+
+    if (!user?.selectedUniversity) return null
+
+    if (!groups) {
+      groups = await getUniGroups(user.selectedUniversity.id)
+    }
+
+    let lessons = []
+
+    for (let i = 0; i < groups.length; i++) {
+      const groupLessons = await getUniGroupSchedule(user.selectedUniversity.id, groups[i].id)
+      lessons = [...groupLessons, ...lessons]
+    }
+
+    const lectors = lessons.map(l=> l.lector)
+
+    return Array.from(new Set(lectors)).map(l=>({name:l}))
+  }
+)
+
+
+export { getUniversity, getGroupsByUni, getLessonsByGroup, getLectors }
