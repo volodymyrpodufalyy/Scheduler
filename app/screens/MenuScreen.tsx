@@ -5,18 +5,20 @@ import { ModalPicker, UorG } from "../components/ModalPicker"
 import { PickItem } from "../components/PickItem"
 import { useAppDispatch, useAppSelector } from "../store/store"
 import { updateUser } from "../store/app/action"
-import { getGroupsByUni, getUniversity } from "../store/lessons/action"
+import { getGroupsByUni, getLectors, getUniversity } from '../store/lessons/action'
 
 
 export const MenuScreen = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector(state => state.AppReducer.user)
-  const { groups, universities } = useAppSelector(state => state.LessonsReducer)
+  const { groups, universities, lectors } = useAppSelector(state => state.LessonsReducer)
 
   const [modalVisibleGroups, setModalVisibleGroups] = useState(false)
   const [modalVisibleUniversities, setModalVisibleUniversities] = useState(false)
+  const [modalVisibleLectors, setModalVisibleLectors] = useState(false)
   const [selectedUniversity, setSelectedUniversity] = useState(user?.selectedUniversity)
   const [selectedGroup, setSelectedGroup] = useState(user?.selectedGroup)
+  const [selectedLector, setSelectedLector] = useState(user?.selectedLector)
   const [allUniversities, setAllUniversities] = useState(universities)
   const [allGroups, setAllGroups] = useState(groups)
 
@@ -36,6 +38,14 @@ export const MenuScreen = () => {
       setModalVisibleGroups(true)
     }
   }
+
+  const openLectors = () => {
+    if (selectedUniversity) {
+      dispatch(getLectors(selectedUniversity))
+      setModalVisibleLectors(true)
+    }
+  }
+
 
   useEffect(() => {
     setAllUniversities(universities)
@@ -85,6 +95,12 @@ export const MenuScreen = () => {
                    type={UorG.group}
                    setSelected={setSelectedGroup}
       />
+      <ModalPicker modalVisible={modalVisibleLectors}
+                   setModalVisible={setModalVisibleLectors}
+                   data={lectors}
+                   type={UorG.group}
+                   setSelected={setSelectedLector}
+      />
       {
         selectedUniversity ?
           <PickItem item={selectedUniversity}
@@ -105,6 +121,16 @@ export const MenuScreen = () => {
                     type={UorG.group}
                     onPress={openGroups} />
       }
+      {/*{*/}
+      {/*  selectedLector ?*/}
+      {/*    <PickItem item={selectedLector}*/}
+      {/*              type={UorG.group}*/}
+      {/*              onPress={openLectors} />*/}
+      {/*    :*/}
+      {/*    <PickItem item={{ name: "Викладач" }}*/}
+      {/*              type={UorG.group}*/}
+      {/*              onPress={openLectors} />*/}
+      {/*}*/}
 
 
     </SafeAreaView>

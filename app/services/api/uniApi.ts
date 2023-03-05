@@ -7,8 +7,7 @@ export async function getUnis(){
         const data = doc.data()
         return {
             id: doc.id,
-            name: data?.name,
-            img: data?.img,
+            ...data
         }
     })
 }
@@ -68,3 +67,4 @@ export async function getUniGroupSchedule(uniId: string, groupId: string){
 
     return snapshot.docs.map(doc => doc.data())
 }
+

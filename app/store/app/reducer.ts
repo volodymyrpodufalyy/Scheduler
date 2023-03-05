@@ -7,6 +7,7 @@ import { getEvents, getUser, updateUser } from './action'
 export type User = {
   selectedUniversity: any,
   selectedGroup: any,
+  selectedLector: any
 }
 
 type State = {
