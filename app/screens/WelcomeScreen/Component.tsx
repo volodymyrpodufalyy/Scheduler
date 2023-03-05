@@ -21,10 +21,6 @@ export const WelcomeScreen = () => {
     selectedGroup: null
   })
 
-  // useEffect(() => {
-  //   requestUserPermissions(selectedGroup, selectedUniversity)
-  // }, [])
-
   const selectUniversity = (selectedUniversity: any) => {
     setSelection({
       ...selection,

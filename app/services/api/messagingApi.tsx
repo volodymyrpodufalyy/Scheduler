@@ -21,6 +21,7 @@ export async function requestUserPermissions(uniId: string, groupId: string) {
 
 async function registerDevice(uniId: string, groupId: string) {
   const token = await messaging().getToken()
+  console.log("token", token)
   await firestore().collection("universities").doc(uniId).collection("groups").doc(groupId).update({
     subscribedUsers: firestore.FieldValue.arrayUnion(token)
   })
