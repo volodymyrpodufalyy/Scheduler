@@ -1,12 +1,21 @@
 import {DarkTheme, DefaultTheme, NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {useColorScheme} from 'react-native'
 import {HomeNavigator} from './HomeNavigator'
+import { useAppDispatch } from '../store/store'
+import { getUser } from '../store/app/action'
 
 const Stack = createNativeStackNavigator()
 
 const AppStack = () => {
+
+  const dispatch = useAppDispatch()
+
+  useEffect(()=>{
+    dispatch(getUser([]))
+  },[])
+
   return (
     <Stack.Navigator
       screenOptions={() => {

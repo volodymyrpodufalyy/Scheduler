@@ -1,28 +1,61 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dimensions, ImageStyle, SafeAreaView, TextStyle, ViewStyle } from 'react-native'
 import { colors } from '../theme'
 import { ModalPicker, UorG } from '../components/ModalPicker'
 import { PickItem } from '../components/PickItem'
+import { useAppDispatch, useAppSelector } from '../store/store'
+import { updateUser } from '../store/app/action'
+import { getGroupsByUni, getUniversity } from '../store/lessons/action'
 
-const groups = [
-  { name: 'IOT-32', image: '' },
-  { name: 'IOT-31', image: '' },
-  { name: 'IOT-33', image: '' }
-]
 
-const university = [
-  { name: 'Національний університет «Львівська політехніка»', image: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Nulp_logo_ukr.jpg' },
-  { name: '2', image: '' },
-  { name: '3', image: '' }
-]
-
-const screenWidth = Dimensions.get('window').width
 export const MenuScreen = () => {
+  const dispatch = useAppDispatch()
+  const user = useAppSelector(state => state.AppReducer.user)
+  const { groups, universities } = useAppSelector(state => state.LessonsReducer)
 
   const [modalVisibleGroups, setModalVisibleGroups] = useState(false)
   const [modalVisibleUniversities, setModalVisibleUniversities] = useState(false)
-  const [selectedUniversity, setSelectedUniversity] = useState(null)
-  const [selectedGroup, setSelectedGroup] = useState(null)
+  const [selectedUniversity, setSelectedUniversity] = useState(user?.selectedUniversity)
+  const [selectedGroup, setSelectedGroup] = useState(user?.selectedGroup)
+  const [allUniversities, setAllUniversities] = useState(universities)
+  const [allGroups, setAllGroups] = useState(groups)
+
+  const openUniversities = () => {
+    dispatch(getUniversity([]))
+    setModalVisibleUniversities(true)
+  }
+
+  const openGroups = () => {
+    if (selectedUniversity) {
+      dispatch(getGroupsByUni(selectedUniversity))
+      setModalVisibleGroups(true)
+    }
+
+  }
+
+  useEffect(() => {
+    setAllUniversities(universities)
+  }, [universities])
+
+  useEffect(() => {
+    setAllGroups(groups)
+  }, [groups])
+
+  useEffect(() => {
+    setSelectedGroup(user?.selectedGroup)
+    setSelectedUniversity(user?.selectedUniversity)
+  }, [user])
+
+
+
+  useEffect(() => {
+    if (selectedGroup && selectedUniversity) {
+      dispatch(updateUser({
+        selectedUniversity: selectedUniversity,
+        selectedGroup: selectedGroup
+      }))
+    }
+  }, [selectedGroup, selectedUniversity])
 
 
   return (
@@ -30,13 +63,13 @@ export const MenuScreen = () => {
 
       <ModalPicker modalVisible={modalVisibleUniversities}
                    setModalVisible={setModalVisibleUniversities}
-                   data={university}
+                   data={allUniversities}
                    type={UorG.university}
                    setSelected={setSelectedUniversity}
       />
       <ModalPicker modalVisible={modalVisibleGroups}
                    setModalVisible={setModalVisibleGroups}
-                   data={groups}
+                   data={allGroups}
                    type={UorG.group}
                    setSelected={setSelectedGroup}
       />
@@ -44,21 +77,21 @@ export const MenuScreen = () => {
         selectedUniversity ?
           <PickItem item={selectedUniversity}
                     type={UorG.university}
-                    onPress={() => setModalVisibleUniversities(true)} />
+                    onPress={openUniversities} />
           :
           <PickItem item={{ name: 'Університет' }}
                     type={UorG.university}
-                    onPress={() => setModalVisibleUniversities(true)} />
+                    onPress={openUniversities} />
       }
       {
         selectedGroup ?
           <PickItem item={selectedGroup}
                     type={UorG.group}
-                    onPress={() => setModalVisibleGroups(true)} />
+                    onPress={openGroups} />
           :
           <PickItem item={{ name: 'Група' }}
                     type={UorG.group}
-                    onPress={() => setModalVisibleGroups(true)} />
+                    onPress={openGroups} />
       }
 
 
@@ -71,32 +104,4 @@ const $container: ViewStyle = {
   height: '100%',
   width: '100%',
   backgroundColor: colors.background
-}
-const $pickContainer: ViewStyle = {
-  paddingVertical: 10,
-  width: '100%',
-  backgroundColor: colors.background,
-  borderBottomWidth: 1,
-  borderBottomColor: colors.border,
-  flexDirection: 'row',
-  alignItems: 'center'
-
-}
-const $pickInnerContainer: ViewStyle = {
-  flexDirection: 'row',
-  alignItems: 'center'
-}
-
-const $image: ImageStyle = {
-  width: 50,
-  height: 50,
-  marginHorizontal: 15
-
-}
-
-const $name: TextStyle = {
-  width: screenWidth - 75,
-  color: 'white',
-  fontSize: 18,
-  flexWrap: 'wrap'
 }

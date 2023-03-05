@@ -1,12 +1,12 @@
-import React, { Dispatch, SetStateAction } from "react"
-import { FlatList, View, ViewStyle } from "react-native"
-import { colors } from "../theme"
-import { PickItem } from "./PickItem"
-import Modal from "react-native-modal"
+import React, { Dispatch, SetStateAction } from 'react'
+import { FlatList, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { colors } from '../theme'
+import { PickItem } from './PickItem'
+import Modal from 'react-native-modal'
 
 export enum UorG {
-  university = "university",
-  group = "group",
+  university = 'university',
+  group = 'group',
 }
 
 export const ModalPicker = ({
@@ -20,7 +20,7 @@ export const ModalPicker = ({
   modalVisible: boolean
   setModalVisible: (v: boolean) => void
   type: UorG
-  setSelected: Dispatch<SetStateAction<null>>
+  setSelected: Dispatch<SetStateAction<any>>
 }) => {
   const onPress = (item: any) => {
     setSelected(item)
@@ -37,11 +37,20 @@ export const ModalPicker = ({
       }}
       isVisible={modalVisible}>
       <View style={$pickContainer}>
-        <FlatList
-          data={data}
-          renderItem={({ item }) => <PickItem item={item} type={type} onPress={onPress} />}
-          keyExtractor={item => item.name}
-        />
+        {
+          data ? <FlatList
+            data={data}
+            renderItem={({ item }) => <PickItem item={item} type={type} onPress={onPress} />}
+            keyExtractor={item => item.name}
+          /> : <TouchableOpacity onPress={() => setModalVisible(false)}>
+            <Text style={{
+            color: 'white',
+            marginTop: 20,
+            fontSize: 20
+          }}>Спочатку університет</Text>
+          </TouchableOpacity>
+        }
+
       </View>
     </Modal>
   )
@@ -49,13 +58,13 @@ export const ModalPicker = ({
 
 const $container: ViewStyle = {
   flex: 1,
-  alignItems: "center",
-  justifyContent: "center",
+  alignItems: 'center',
+  justifyContent: 'center',
   backgroundColor: colors.background,
   marginTop: 50
 }
 const $pickContainer: ViewStyle = {
   flex: 1,
   borderRadius: 12,
-  overflow: "hidden"
+  overflow: 'hidden'
 }
