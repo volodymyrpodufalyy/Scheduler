@@ -20,6 +20,11 @@ export const MenuScreen = () => {
   const [allUniversities, setAllUniversities] = useState(universities)
   const [allGroups, setAllGroups] = useState(groups)
 
+  useEffect(() => {
+    setSelectedGroup(user?.selectedGroup)
+    setSelectedUniversity(user?.selectedUniversity)
+  }, [user])
+
   const openUniversities = () => {
     dispatch(getUniversity([]))
     setModalVisibleUniversities(true)
@@ -40,10 +45,6 @@ export const MenuScreen = () => {
     setAllGroups(groups)
   }, [groups])
 
-  useEffect(() => {
-    setSelectedGroup(user?.selectedGroup)
-    setSelectedUniversity(user?.selectedUniversity)
-  }, [user])
 
 
 
