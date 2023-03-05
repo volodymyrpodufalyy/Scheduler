@@ -6,12 +6,13 @@ import { UorG } from "./ModalPicker"
 const group = require("../../assets/images/groups.png")
 const university = require("../../assets/images/university.png")
 export const PickItem = ({ item, type, onPress }: { item: any; type: UorG; onPress: any }) => {
+
   return (
     <View style={$pickContainer}>
       <TouchableOpacity style={$pickInnerContainer} onPress={() => onPress(item)}>
         <Image
-          source={item.image ? { uri: item.image } : type === UorG.university ? university : group}
-          style={[$image, !item.image ? { tintColor: colors.palette.secondary100 } : null]}
+          source={item.img ? { uri: item.img } : type === UorG.university ? university : group}
+          style={[$image, !item.img ? { tintColor: colors.palette.secondary100 } : null]}
         />
         <View style={$nameContainer}>
           <Text style={$name}>{item.name} </Text>
