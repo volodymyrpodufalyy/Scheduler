@@ -1,10 +1,11 @@
-import React from "react"
-import { Platform, View, ViewStyle } from "react-native"
-import { EventsScreen, MapScreen, MenuScreen, ScheduleScreen } from "../screens"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { Icon, IconTypes } from "../components"
-import { colors } from "../theme"
-import { Header } from "../components/Header"
+import React from 'react'
+import { Platform, View, ViewStyle } from 'react-native'
+import {EventsScreen, MapScreen, MenuScreen, ScheduleScreen} from '../screens'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import {Icon, IconTypes} from '../components'
+import {colors} from '../theme'
+import { Header } from '../components/Header'
+
 
 const Tab = createBottomTabNavigator()
 
