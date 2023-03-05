@@ -30,7 +30,6 @@ export const MenuScreen = () => {
       dispatch(getGroupsByUni(selectedUniversity))
       setModalVisibleGroups(true)
     }
-
   }
 
   useEffect(() => {
@@ -49,35 +48,45 @@ export const MenuScreen = () => {
 
 
   useEffect(() => {
+    if (selectedUniversity) {
+      dispatch(updateUser({
+        selectedUniversity: selectedUniversity,
+        selectedGroup: null
+      }))
+      setSelectedGroup(null)
+    }
+  }, [ selectedUniversity])
+
+  useEffect(() => {
     if (selectedGroup && selectedUniversity) {
       dispatch(updateUser({
         selectedUniversity: selectedUniversity,
         selectedGroup: selectedGroup
       }))
     }
-  }, [selectedGroup, selectedUniversity])
+  }, [selectedGroup])
 
-  useEffect(() => {
-    async function registerDevice() {
-      const token = await messaging().getToken()
-      console.log(token, "token")
-    }
-
-    async function requestUserPermission() {
-      Platform.OS === "android" && await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
-      const authStatus = await messaging().requestPermission()
-      const enabled =
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL
-
-      if (enabled) {
-        await registerDevice()
-      }
-    }
-
-
-    requestUserPermission()
-  }, [])
+  // useEffect(() => {
+  //   async function registerDevice() {
+  //     const token = await messaging().getToken()
+  //     console.log(token, "token")
+  //   }
+  //
+  //   async function requestUserPermission() {
+  //     Platform.OS === "android" && await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
+  //     const authStatus = await messaging().requestPermission()
+  //     const enabled =
+  //       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  //       authStatus === messaging.AuthorizationStatus.PROVISIONAL
+  //
+  //     if (enabled) {
+  //       await registerDevice()
+  //     }
+  //   }
+  //
+  //
+  //   requestUserPermission()
+  // }, [])
 
 
   return (

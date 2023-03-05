@@ -41,7 +41,7 @@ export const ModalPicker = ({
           data ? <FlatList
             data={data}
             renderItem={({ item }) => <PickItem item={item} type={type} onPress={onPress} />}
-            keyExtractor={item => item.name}
+            keyExtractor={(item,index) => index.toString()}
           /> : <TouchableOpacity onPress={() => setModalVisible(false)}>
             <Text style={{
             color: 'white',

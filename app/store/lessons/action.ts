@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { ActionType } from './common'
 import { AsyncThunkConfig } from '../store'
-import { StorageKey } from '../../common/enums/enums'
 import { LessonType } from '../../common/types/lesson.type'
+import { getUniGroups, getUnis } from '../../services/api/uniApi'
 
 const university = [
   {
@@ -57,17 +57,17 @@ const getUniversity = createAsyncThunk<any, any, AsyncThunkConfig>(
   ActionType.GET_UNIVERSITY,
   async (payload, { extra }) => {
     const { storage } = extra
+    const uni = await getUnis()
 
-    return university
+    return uni
   }
 )
 
-const getGroupsByUni = createAsyncThunk<any, { uni: any }, AsyncThunkConfig>(
+const getGroupsByUni = createAsyncThunk<any, any, AsyncThunkConfig>(
   ActionType.GET_GROUPS,
   async (payload, { extra }) => {
     const { storage } = extra
-
-    return groups
+    return await getUniGroups(payload.id)
   }
 )
 
