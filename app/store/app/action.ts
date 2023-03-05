@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { ActionType } from './common'
 import { AsyncThunkConfig } from '../store'
 import { StorageKey } from '../../common/enums/enums'
+import { getUniEvents } from '../../services/api/uniApi'
 
 const getUser = createAsyncThunk<any, any, AsyncThunkConfig>(
   ActionType.GET_USER,
@@ -43,4 +44,17 @@ const updateUser = createAsyncThunk<any, {
     return user
   }
 )
-export { getUser, updateUser }
+
+const getEvents = createAsyncThunk<any, any, AsyncThunkConfig>(
+  ActionType.GET_EVENTS,
+  async (payload, { extra, getState }) => {
+
+    const user = getState().AppReducer.user
+
+    const events = await getUniEvents(user?.selectedUniversity.id)
+
+    return events
+  }
+)
+
+export { getUser, updateUser, getEvents }

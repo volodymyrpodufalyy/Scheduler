@@ -47,7 +47,13 @@ export async function getUniEvents(uniId: string){
                             .collection('events')
                             .get()
 
-    return snapshot.docs.map(doc => doc.data())
+    return snapshot.docs.map(doc => {
+
+        return {
+            id: doc.id,
+            ...doc.data()
+        }
+    })
 }
 
 export async function getUniGroupSchedule(uniId: string, groupId: string){

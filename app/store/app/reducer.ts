@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { DataStatus } from '../../common/enums/enums'
 
-import { getUser, updateUser } from './action'
+import { getEvents, getUser, updateUser } from './action'
 
 type User = {
   selectedUniversity: any,
@@ -12,13 +12,15 @@ type User = {
 type State = {
   dataStatus: DataStatus
   error: any
-  user: User | null
+  user: User | null,
+  events:any,
 }
 
 const initialState: State = {
   dataStatus: DataStatus.IDLE,
   error: null,
-  user: null
+  user: null,
+  events:[]
 }
 
 const reducer = createReducer(initialState, builder => {
@@ -27,6 +29,9 @@ const reducer = createReducer(initialState, builder => {
   })
   builder.addCase(updateUser.fulfilled, (state, action) => {
     state.user = action.payload
+  })
+  builder.addCase(getEvents.fulfilled, (state, action) => {
+    state.events = action.payload
   })
 })
 
