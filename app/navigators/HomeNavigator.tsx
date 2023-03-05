@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Platform, View, ViewStyle } from "react-native"
 import { EventsScreen, MapScreen, MenuScreen, ScheduleScreen } from "../screens"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
@@ -6,6 +6,7 @@ import { Icon, IconTypes } from "../components"
 import { colors } from "../theme"
 import { Header } from "../components/Header"
 import { useAppSelector } from "../store/store"
+import { requestUserPermissions } from "../services/api"
 
 
 const Tab = createBottomTabNavigator()
@@ -13,6 +14,12 @@ const Tab = createBottomTabNavigator()
 export function HomeNavigator() {
 
   const user = useAppSelector(state => state.AppReducer.user)
+
+  useEffect(() => {
+    if (user !== null) {
+      requestUserPermissions(user.selectedUniversity.id, user.selectedGroup.id)
+    }
+  }, [])
 
   const tabNavigationOption = ({ route }: any) => ({
     tabBarShowLabel: false,

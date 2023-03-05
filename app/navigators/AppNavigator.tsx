@@ -42,12 +42,10 @@ const AppStack = () => {
     >
       {user !== null ? (
         <Stack.Group>
-          {console.log("render home")}
           <Stack.Screen name="HomeNavigation" component={HomeNavigator} />
         </Stack.Group>
       ) : (
         <Stack.Group>
-          {console.log("render welcome")}
           <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
         </Stack.Group>
       )}

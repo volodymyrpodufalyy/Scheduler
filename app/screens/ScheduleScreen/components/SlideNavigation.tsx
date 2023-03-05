@@ -1,20 +1,19 @@
-import React from 'react'
-import { TextStyle } from 'react-native'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import { colors } from '../../../theme'
-import { Day } from './Day'
+import React from "react"
+import { TextStyle } from "react-native"
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
+import { colors } from "../../../theme"
+import { Day } from "./Day"
 
 
 const Tab = createMaterialTopTabNavigator()
 
-export const SlideNavigation = ({data}:{data:any}) => {
+export const SlideNavigation = ({ data }: { data: any }) => {
 
   const screenOptions = {
     tabBarLabelStyle: $tabBarLabel,
     tabBarStyle: { backgroundColor: colors.background },
-    tabBarIndicatorStyle: {backgroundColor: colors.textDim}
+    tabBarIndicatorStyle: { backgroundColor: colors.textDim }
   }
-
 
   return (
     <Tab.Navigator screenOptions={screenOptions}>
@@ -23,7 +22,7 @@ export const SlideNavigation = ({data}:{data:any}) => {
           name={item.day}
           key={item.day}
           component={Day}
-          initialParams={{ item: item }}
+          initialParams={{ item: item, day: item.day }}
         />
       )}
 
@@ -35,5 +34,5 @@ export const SlideNavigation = ({data}:{data:any}) => {
 const $tabBarLabel: TextStyle = {
   fontSize: 12,
   color: colors.text,
-  fontWeight: '500'
+  fontWeight: "500"
 }

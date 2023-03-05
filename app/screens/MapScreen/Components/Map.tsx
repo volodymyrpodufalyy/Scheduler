@@ -1,10 +1,12 @@
 import { StyleSheet, View, ViewStyle } from "react-native"
 import MapView, { Marker } from "react-native-maps"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { AddMarkerButton } from "./AddMarkerButton"
 import { colors } from "../../../theme"
 import { getUniBuildings } from "../../../services/api/uniApi"
 import { storage } from "../../../services/api"
+import { useAppSelector } from "../../../store/store"
+import { useRoute } from "@react-navigation/native"
 
 interface Location {
   latitude: number;
@@ -25,12 +27,43 @@ export const Map = () => {
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState(false)
 
+  const user = useAppSelector(state => state.AppReducer.user)
+
+  const route = useRoute()
+
+  const [building, setBuilding] = useState({
+    latitude: 49.835674465548955,
+    longitude: 24.014427562445892,
+    latitudeDelta: 0.00622,
+    longitudeDelta: 0.00421
+  })
+
+  const ref = useRef<MapView | null>(null)
+
+
+  useEffect(() => {
+    const fetchInitialLocation = async () => {
+      if (route.params) {
+        const location = route.params?.location
+        const address = route.params?.address
+        setBuilding({
+          ...building,
+          latitude: location.latitude,
+          longitude: location.longitude
+        })
+        ref?.current?.animateToRegion({
+          ...building
+        })
+      }
+    }
+    fetchInitialLocation()
+  }, [])
 
   useEffect(() => {
     const fetchBuildings = async () => {
       try {
         setLoading(true)
-        const buildings = await getUniBuildings("LPNU") as Building[]
+        const buildings = await getUniBuildings(user?.selectedUniversity.id) as Building[]
         const customMarkers = await storage.load("markers")
         const parsedMarkers = customMarkers !== null ? JSON.parse(customMarkers) : []
         setBuildings([...buildings, ...parsedMarkers.map((marker: Building) => ({ ...marker, type: "custom" }))])
@@ -53,9 +86,13 @@ export const Map = () => {
     }
   })
 
+
   if (loading) {
     return null
   }
+
+
+  console.log(building, "building")
 
 
   return (
@@ -76,13 +113,9 @@ export const Map = () => {
           style={$map}
           zoomControlEnabled={false}
           zoomEnabled={false}
+          ref={ref}
           zoomTapEnabled={false}
-          initialRegion={{
-            latitude: 49.835674465548955,
-            longitude: 24.014427562445892,
-            latitudeDelta: 0.00622,
-            longitudeDelta: 0.00421
-          }}>
+          initialRegion={building}>
           <Marker
             pinColor={colors.palette.secondary100}
             draggable

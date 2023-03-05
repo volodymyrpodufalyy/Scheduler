@@ -1,27 +1,28 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { DataStatus } from "../../common/enums/enums"
 
-import { getEvents, getUser, updateUser } from './action'
+import { getEvents, getUser, updateUser } from "./action"
+import { UniversityType } from "../../common/types/university.type"
+import { GroupType } from "../../common/types/group.type"
 
 
 export type User = {
-  selectedUniversity: any,
-  selectedGroup: any,
-  selectedLector: any
+  selectedUniversity: UniversityType,
+  selectedGroup: GroupType,
 }
 
 type State = {
   dataStatus: DataStatus
   error: any
   user: User | null,
-  events:any,
+  events: any,
 }
 
 const initialState: State = {
   dataStatus: DataStatus.IDLE,
   error: null,
   user: null,
-  events:[]
+  events: []
 }
 
 const reducer = createReducer(initialState, builder => {
