@@ -5,12 +5,12 @@ import { EventType } from '../../../common/types/event.type'
 
 const screenWidth = Dimensions.get('window').width
 
-export const Event= ({event}:{event:EventType}) => {
+export const Event= ({event}:{event:any}) => {
   return (
       <View style={$event}>
-        <Text style={$title}>{event.eventName}</Text>
+        <Text style={$title}>{event.name}</Text>
         <Text style={$description}>{event.description}</Text>
-        <Text style={$addInfo}>⏰Коли? {event.date.toLocaleDateString()} </Text>
+        <Text style={$addInfo}>⏰Коли? {event.date} </Text>
         <Text style={$addInfo}>📍Де? {event.location}</Text>
       </View>
   )
