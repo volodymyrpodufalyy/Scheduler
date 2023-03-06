@@ -1,7 +1,7 @@
 # Scheduler 🗓️
 ## Application to keep it is easy for students to find information about the place where the lecture took place, laboratory works and other events. 🔥
 
-## Was done in process of Hackathon INT20H 2023 by @bohdan_shcherba, @shv833, @volodymyrpodufalyy
+## Was done in process of Hackathon INT20H 2023 by @bohdanshcherba, @shv833, @volodymyrpodufalyy
 
 ## Stack: 
 
