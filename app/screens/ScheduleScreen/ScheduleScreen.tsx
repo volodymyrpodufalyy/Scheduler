@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from "react"
 
-import { SlideNavigation } from './components/SlideNavigation'
-import { LessonType } from '../../common/types/lesson.type'
-import { useAppDispatch, useAppSelector } from '../../store/store'
-import { Text, TextStyle, View, ViewStyle } from 'react-native'
-import { colors } from '../../theme'
-import { getLessonsByGroup } from '../../store/lessons/action'
+import { SlideNavigation } from "./components/SlideNavigation"
+import { useAppDispatch, useAppSelector } from "../../store/store"
+import { Text, TextStyle, View, ViewStyle } from "react-native"
+import { colors } from "../../theme"
+import { getLessonsByGroup } from "../../store/lessons/action"
 
 export const ScheduleScreen = () => {
 
@@ -14,21 +13,16 @@ export const ScheduleScreen = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getLessonsByGroup(user?.selectedGroup))
+    dispatch(getLessonsByGroup({
+      selectedGroup: user?.selectedGroup, selectedUniversity: user?.selectedUniversity
+    }))
   }, [user])
 
   const schedule = useAppSelector(state => state.LessonsReducer.lessons)
-
-  const [lessons, setLessons] = useState(null)
-
-  useEffect(()=>{
-    // @ts-ignore
-    setLessons(schedule)
-  },[schedule])
-
+  
   return (
     <>
-      {lessons ? <SlideNavigation data={lessons} /> :
+      {schedule ? <SlideNavigation data={schedule} /> :
         <View style={$container}>
           <Text style={$title}>Не вибрана група</Text>
         </View>}
@@ -38,15 +32,15 @@ export const ScheduleScreen = () => {
 
 const $container: ViewStyle = {
   flex: 1,
-  height: '100%',
-  width: '100%',
+  height: "100%",
+  width: "100%",
   backgroundColor: colors.background,
-  alignItems: 'center',
-  justifyContent: 'center'
+  alignItems: "center",
+  justifyContent: "center"
 }
 
 const $title: TextStyle = {
   color: colors.palette.neutral100,
   fontSize: 20,
-  fontWeight: '400'
+  fontWeight: "400"
 }

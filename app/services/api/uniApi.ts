@@ -7,8 +7,7 @@ export async function getUnis(){
         const data = doc.data()
         return {
             id: doc.id,
-            name: data?.name,
-            img: data?.img,
+            ...data
         }
     })
 }
@@ -47,10 +46,17 @@ export async function getUniEvents(uniId: string){
                             .collection('events')
                             .get()
 
-    return snapshot.docs.map(doc => doc.data())
+    return snapshot.docs.map(doc => {
+
+        return {
+            id: doc.id,
+            ...doc.data()
+        }
+    })
 }
 
 export async function getUniGroupSchedule(uniId: string, groupId: string){
+
     const snapshot = await firestore()
                             .collection('universities')
                             .doc(uniId)
@@ -61,3 +67,4 @@ export async function getUniGroupSchedule(uniId: string, groupId: string){
 
     return snapshot.docs.map(doc => doc.data())
 }
+

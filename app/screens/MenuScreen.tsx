@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { Dimensions, ImageStyle, SafeAreaView, TextStyle, ViewStyle } from 'react-native'
-import { colors } from '../theme'
-import { ModalPicker, UorG } from '../components/ModalPicker'
-import { PickItem } from '../components/PickItem'
-import { useAppDispatch, useAppSelector } from '../store/store'
-import { updateUser } from '../store/app/action'
-import { getGroupsByUni, getUniversity } from '../store/lessons/action'
+import React, { useEffect, useState } from "react"
+import { SafeAreaView, ViewStyle } from "react-native"
+import { colors } from "../theme"
+import { ModalPicker, UorG } from "../components/ModalPicker"
+import { PickItem } from "../components/PickItem"
+import { useAppDispatch, useAppSelector } from "../store/store"
+import { updateUser } from "../store/app/action"
+import { getGroupsByUni, getLectors, getUniversity } from '../store/lessons/action'
 
 
 export const MenuScreen = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector(state => state.AppReducer.user)
-  const { groups, universities } = useAppSelector(state => state.LessonsReducer)
+  const { groups, universities, lectors } = useAppSelector(state => state.LessonsReducer)
 
   const [modalVisibleGroups, setModalVisibleGroups] = useState(false)
   const [modalVisibleUniversities, setModalVisibleUniversities] = useState(false)
+  const [modalVisibleLectors, setModalVisibleLectors] = useState(false)
   const [selectedUniversity, setSelectedUniversity] = useState(user?.selectedUniversity)
   const [selectedGroup, setSelectedGroup] = useState(user?.selectedGroup)
+  const [selectedLector, setSelectedLector] = useState(user?.selectedLector)
   const [allUniversities, setAllUniversities] = useState(universities)
   const [allGroups, setAllGroups] = useState(groups)
+
+  useEffect(() => {
+    setSelectedGroup(user?.selectedGroup)
+    setSelectedUniversity(user?.selectedUniversity)
+  }, [user])
 
   const openUniversities = () => {
     dispatch(getUniversity([]))
@@ -32,6 +39,14 @@ export const MenuScreen = () => {
     }
   }
 
+  const openLectors = () => {
+    if (selectedUniversity) {
+      dispatch(getLectors(selectedUniversity))
+      setModalVisibleLectors(true)
+    }
+  }
+
+
   useEffect(() => {
     setAllUniversities(universities)
   }, [universities])
@@ -39,12 +54,6 @@ export const MenuScreen = () => {
   useEffect(() => {
     setAllGroups(groups)
   }, [groups])
-
-  useEffect(() => {
-    setSelectedGroup(user?.selectedGroup)
-    setSelectedUniversity(user?.selectedUniversity)
-  }, [user])
-
 
 
   useEffect(() => {
@@ -55,7 +64,7 @@ export const MenuScreen = () => {
       }))
       setSelectedGroup(null)
     }
-  }, [ selectedUniversity])
+  }, [selectedUniversity])
 
   useEffect(() => {
     if (selectedGroup && selectedUniversity) {
@@ -67,25 +76,7 @@ export const MenuScreen = () => {
   }, [selectedGroup])
 
   // useEffect(() => {
-  //   async function registerDevice() {
-  //     const token = await messaging().getToken()
-  //     console.log(token, "token")
-  //   }
-  //
-  //   async function requestUserPermission() {
-  //     Platform.OS === "android" && await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
-  //     const authStatus = await messaging().requestPermission()
-  //     const enabled =
-  //       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-  //       authStatus === messaging.AuthorizationStatus.PROVISIONAL
-  //
-  //     if (enabled) {
-  //       await registerDevice()
-  //     }
-  //   }
-  //
-  //
-  //   requestUserPermission()
+  //   requestUserPermissions(selectedGroup, selectedUniversity)
   // }, [])
 
 
@@ -103,6 +94,12 @@ export const MenuScreen = () => {
                    data={allGroups}
                    type={UorG.group}
                    setSelected={setSelectedGroup}
+      />
+      <ModalPicker modalVisible={modalVisibleLectors}
+                   setModalVisible={setModalVisibleLectors}
+                   data={lectors}
+                   type={UorG.group}
+                   setSelected={setSelectedLector}
       />
       {
         selectedUniversity ?
@@ -124,6 +121,16 @@ export const MenuScreen = () => {
                     type={UorG.group}
                     onPress={openGroups} />
       }
+      {/*{*/}
+      {/*  selectedLector ?*/}
+      {/*    <PickItem item={selectedLector}*/}
+      {/*              type={UorG.group}*/}
+      {/*              onPress={openLectors} />*/}
+      {/*    :*/}
+      {/*    <PickItem item={{ name: "Викладач" }}*/}
+      {/*              type={UorG.group}*/}
+      {/*              onPress={openLectors} />*/}
+      {/*}*/}
 
 
     </SafeAreaView>

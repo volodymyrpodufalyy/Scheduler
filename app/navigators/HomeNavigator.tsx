@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, Platform, Text, View, ViewStyle } from 'react-native'
-import { EventsScreen, MapScreen, MenuScreen, ScheduleScreen } from '../screens'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Icon, IconTypes } from '../components'
-import { colors } from '../theme'
-import { Header } from '../components/Header'
-import { useAppSelector } from '../store/store'
+import React, { useEffect } from "react"
+import { Platform, View, ViewStyle } from "react-native"
+import { EventsScreen, MapScreen, MenuScreen, ScheduleScreen } from "../screens"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { Icon, IconTypes } from "../components"
+import { colors } from "../theme"
+import { Header } from "../components/Header"
+import { useAppSelector } from "../store/store"
+import { requestUserPermissions } from "../services/api"
 
 
 const Tab = createBottomTabNavigator()
@@ -13,12 +14,12 @@ const Tab = createBottomTabNavigator()
 export function HomeNavigator() {
 
   const user = useAppSelector(state => state.AppReducer.user)
-  const [currUser, setCurrUser] = useState(null)
 
   useEffect(() => {
-    // @ts-ignore
-    setCurrUser(user)
-  }, [user])
+    if (user !== null) {
+      requestUserPermissions(user.selectedUniversity.id, user.selectedGroup.id)
+    }
+  }, [])
 
   const tabNavigationOption = ({ route }: any) => ({
     tabBarShowLabel: false,
@@ -30,19 +31,19 @@ export function HomeNavigator() {
 
     tabBarVisible: true,
     tabBarIcon: ({ focused }: any) => {
-      let iconName: IconTypes = 'map'
+      let iconName: IconTypes = "map"
 
-      if (route.name === 'Schedule') {
-        iconName = 'schedule'
+      if (route.name === "Schedule") {
+        iconName = "schedule"
       }
-      if (route.name === 'Map') {
-        iconName = 'map'
+      if (route.name === "Map") {
+        iconName = "map"
       }
-      if (route.name === 'Events') {
-        iconName = 'event'
+      if (route.name === "Events") {
+        iconName = "event"
       }
-      if (route.name === 'Menu') {
-        iconName = 'menu'
+      if (route.name === "Menu") {
+        iconName = "menu"
       }
 
       return (
@@ -53,16 +54,14 @@ export function HomeNavigator() {
     }
   })
 
-  return (<>
-      {currUser !== null ?
-        <Tab.Navigator initialRouteName={currUser ? 'Schedule' : 'Menu'} screenOptions={tabNavigationOption}>
-          <Tab.Screen name="Schedule" component={ScheduleScreen} />
-          <Tab.Screen name="Map" component={MapScreen} />
-          <Tab.Screen name="Events" component={EventsScreen} />
-          <Tab.Screen name="Menu" component={MenuScreen} />
-        </Tab.Navigator> : <View style={$container}>
-          <ActivityIndicator/>
-        </View>}
+  return (
+    <>
+      <Tab.Navigator initialRouteName={user ? "Schedule" : "Menu"} screenOptions={tabNavigationOption}>
+        <Tab.Screen name="Schedule" component={ScheduleScreen} />
+        <Tab.Screen name="Map" component={MapScreen} />
+        <Tab.Screen name="Events" component={EventsScreen} />
+        <Tab.Screen name="Menu" component={MenuScreen} />
+      </Tab.Navigator>
     </>
   )
 }
@@ -79,13 +78,6 @@ const $tabBar: ViewStyle = {
 }
 
 const $icon: ViewStyle = {
-  top: Platform.OS === 'ios' ? 8 : 0
+  top: Platform.OS === "ios" ? 8 : 0
 }
-const $container: ViewStyle = {
-  flex: 1,
-  height: '100%',
-  width: '100%',
-  backgroundColor: colors.background,
-  alignItems: 'center',
-  justifyContent: 'center'
-}
+

@@ -15,7 +15,7 @@ const $header: ViewStyle = {
   padding: 16,
   borderBottomWidth: 1,
   backgroundColor: colors.background,
-  paddingTop: Platform.OS === "ios" ? 32 : 0
+  paddingTop: Platform.OS === "ios" ? 32 : 16
 }
 
 const $title: TextStyle = {

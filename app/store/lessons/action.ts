@@ -1,57 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { ActionType } from './common'
 import { AsyncThunkConfig } from '../store'
-import { LessonType } from '../../common/types/lesson.type'
-import { getUniGroups, getUnis } from '../../services/api/uniApi'
 
-const university = [
-  {
-    id: '1',
-    name: 'Національний університет «Львівська політехніка»',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Nulp_logo_ukr.jpg'
-  }
-
-]
-
-const groups = [
-  { id: '1', name: 'IOT-32', image: '' },
-  { id: '2', name: 'IOT-31', image: '' },
-  { id: '3', name: 'IOT-33', image: '' }
-]
-
-const schedule:Array<{day:string, lessons?:Array<LessonType>}> = [
-  { day: 'ПН', lessons:[
-      {
-        id:'1',
-        name:'Комп’ютерні мережі',
-        lector:'Торубка Т.В.',
-        location:'5 корпус 404к.',
-        dayOfWeek: 1,
-        numberLesson: 1,
-        timeStart: '8:30',
-        lessonType: 'lecture',
-        groupTurn: 'all',
-        weekTurn: 'always'
-      },
-      {
-        id:'2',
-        name:'Комп’ютерні мережі',
-        lector:'Торубка Т.В.',
-        location:'5 корпус 404к.',
-        dayOfWeek: 2,
-        numberLesson: 2,
-        timeStart: '10:20',
-        lessonType: 'lecture',
-        groupTurn: 'all',
-        weekTurn: 'always'
-
-      },
-    ] },
-  { day: 'ВТ' },
-  { day: 'СР' },
-  { day: 'ЧТ' },
-  { day: 'ПТ' }
-]
+import { getUniGroups, getUniGroupSchedule, getUnis } from '../../services/api/uniApi'
+import { filterLessons } from '../../utils/filterLessons'
 
 const getUniversity = createAsyncThunk<any, any, AsyncThunkConfig>(
   ActionType.GET_UNIVERSITY,
@@ -71,18 +23,45 @@ const getGroupsByUni = createAsyncThunk<any, any, AsyncThunkConfig>(
   }
 )
 
-const getLessonsByGroup = createAsyncThunk<any, { group: any }, AsyncThunkConfig>(
+const getLessonsByGroup = createAsyncThunk<any, any, AsyncThunkConfig>(
   ActionType.GET_LESSONS,
   async (payload, { extra }) => {
-    const { storage } = extra
 
-    if(payload){
 
-      return schedule
+    if (payload) {
+      const data = await getUniGroupSchedule(payload.selectedUniversity.id, payload.selectedGroup.id)
+
+      return filterLessons(data)
     }
     return null
   }
 )
 
+const getLectors = createAsyncThunk<any, any, AsyncThunkConfig>(
+  ActionType.GET_LECTORS,
+  async (payload, { extra, getState }) => {
 
-export { getUniversity, getGroupsByUni, getLessonsByGroup }
+    const user = getState().AppReducer.user
+    let groups = getState().LessonsReducer.groups
+
+    if (!user?.selectedUniversity) return null
+
+    if (!groups) {
+      groups = await getUniGroups(user.selectedUniversity.id)
+    }
+
+    let lessons = []
+
+    for (let i = 0; i < groups.length; i++) {
+      const groupLessons = await getUniGroupSchedule(user.selectedUniversity.id, groups[i].id)
+      lessons = [...groupLessons, ...lessons]
+    }
+
+    const lectors = lessons.map(l=> l.lector)
+
+    return Array.from(new Set(lectors)).map(l=>({name:l}))
+  }
+)
+
+
+export { getUniversity, getGroupsByUni, getLessonsByGroup, getLectors }
